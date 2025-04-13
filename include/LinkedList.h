@@ -19,7 +19,7 @@ private:
             data = new char[len];
             // Note: strcpy_s is Microsoft-specific.
             // If you are using gcc/clang, you can replace it with strcpy or strncpy.
-            strcpy_s(data, len, val);
+            strcpy(data, val);
         }
     };
     Node* head;
@@ -38,7 +38,23 @@ public:
     void removeDuplicates();
     void makeCircular();
 };
+struct Node {
+    char data[100];  // Fixed-size character array
+    Node* next;
+};
 
+// Function declarations
+Node* createNode(const char* data);
+void appendNode(Node*& head, const char* data);
+void printList(Node* head);
+Node* reverseList(Node* head);
+Node* getPreviousNode(Node* head, Node* target);
+Node* getMiddleNode(Node* head);
+Node* getLastNode(Node* head);
+Node* getNodeByData(Node* head, const char* targetData);
+Node* getHead(Node* head);
+Node* getTail(Node* head);
+void freeList(Node* head);
 #include "LinkedList.tpp"
 
 #endif // LINKEDLIST_H

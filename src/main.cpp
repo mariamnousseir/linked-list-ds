@@ -1,58 +1,139 @@
+
+#include <iostream>
 #include "LinkedList.h"
 
+using namespace std;
+
 int main() {
-    cout << "Beginning LinkedList Data Structure Tests:" << endl;
+    Node* head = nullptr;
 
-    LinkedList list;
+    // Build the list with nodes containing numbers from 1 to 10
+    for (int i = 1; i <= 10; i++) {
+        string numberStr = to_string(i);
+        appendNode(head, numberStr.c_str());
+    }
 
-    cout << "\nTest 1: Check if list is empty initially:" << endl;
-    cout << "Is list empty? " << (list.isEmpty() ? "Yes" : "No") << endl;
+    cout << "Original List:" << endl;
+    printList(head);
 
-    cout << "\nTest 2: Inserting tokens at the end of the list:" << endl;
-    list.insertAtEnd("5");
-    list.insertAtEnd("+");
-    list.insertAtEnd("(");
-    list.insertAtEnd("3");
-    list.insertAtEnd("*");
-    list.insertAtEnd("3");
-    list.insertAtEnd(")");
-    cout << "List after insertions: ";
-    list.printList();
+    // --- Perform node checks BEFORE reversing ---
 
-    cout << "\nTest 3: Getting the length of the list:" << endl;
-    cout << "Length of list: " << list.getLength() << endl;
+    // Target node (looking for "5")
+    Node* target = head;
+    while (target && strcmp(target->data, "5") != 0)
+        target = target->next;
 
-    cout << "\nTest 4: Retrieve data at index 3:" << endl;
-    char* dataAtIndex = list.getDataAt(3);
-    if (dataAtIndex)
-        cout << "Data at index 3: " << dataAtIndex << endl;
+    Node* prevNode = getPreviousNode(head, target);
+    if (target) {
+        cout << "\nTarget node data = " << target->data << endl;
+        if (prevNode)
+            cout << "Previous node data = " << prevNode->data << endl;
+        else
+            cout << "Target node is head; no previous node." << endl;
+    }
 
-    cout << "\nTest 5: Searching for the first occurrence of token '+':" << endl;
-    int foundIndex = list.search("+");
-    if (foundIndex != -1)
-        cout << "Token '+' found at index: " << foundIndex << endl;
+    // Middle node
+    Node* middle = getMiddleNode(head);
+    if (middle)
+        cout << "\nMiddle node data = " << middle->data << endl;
+
+    Node* lastFromEnd = getLastNode(head);
+    if (lastFromEnd)
+        cout << "\nLast node from end data = " << lastFromEnd->data << endl;
     else
-        cout << "Token '+' not found in the list." << endl;
+        cout << "\nUnable to get last node from end." << endl;
+    
+    const char* targetData = "5";
+    Node* nthNode = getNodeByData(head, targetData);
+    if (nthNode)
+        cout << "\nNode containing \"" << targetData << "\" found. Data = " << nthNode->data << endl;
+    else
+        cout << "\nNode containing \"" << targetData << "\" not found." << endl;
 
-    cout << "\nTest 6: Removing duplicate tokens:" << endl;
-    list.removeDuplicates();
-    cout << "List after removing duplicates: ";
-    list.printList();
-    cout << "Length after removing duplicates: " << list.getLength() << endl;
+    // Head
+    Node* headNode = getHead(head);
+    if (headNode)
+        cout << "\nHead data = " << headNode->data << endl;
 
-    cout << "\nTest 7: Making the list circular:" << endl;
-    list.makeCircular();
-    cout << "List after converting to circular: ";
-    list.printList();
+    // Tail
+    Node* tailNode = getTail(head);
+    if (tailNode)
+        cout << "\nTail data = " << tailNode->data << endl;
 
-    cout << "\nTest 8: Check if list is full:" << endl;
-    cout << "Is list full? " << (list.isFull() ? "Yes" : "No") << endl;
+    // --- Reverse the list ---
+    head = reverseList(head);
+    cout << "\nReversed List:" << endl;
+    printList(head);
 
-    cout << "\nTest 9: Retrieve data at an out of bounds index (index 100):" << endl;
-    char* invalidData = list.getDataAt(100);
-    if (invalidData == nullptr)
-        cout << "Correctly handled out of bounds request" << endl;
+    // --- Cleanup ---
+    freeList(head);
+    cout << "\nList memory freed." << endl;
 
-    cout << "\nAll Tests Completed" << endl;
+    Node* head = nullptr;
+
+    // Build the list with nodes containing numbers from 1 to 10
+    for (int i = 1; i <= 10; i++) {
+        string numberStr = to_string(i);
+        appendNode(head, numberStr.c_str());
+    }
+
+    cout << "Original List:" << endl;
+    printList(head);
+
+    // --- Perform node checks BEFORE reversing ---
+
+    // Target node (looking for "5")
+    Node* target = head;
+    while (target && strcmp(target->data, "5") != 0)
+        target = target->next;
+
+    Node* prevNode = getPreviousNode(head, target);
+    if (target) {
+        cout << "\nTarget node data = " << target->data << endl;
+        if (prevNode)
+            cout << "Previous node data = " << prevNode->data << endl;
+        else
+            cout << "Target node is head; no previous node." << endl;
+    }
+
+    // Middle node
+    Node* middle = getMiddleNode(head);
+    if (middle)
+        cout << "\nMiddle node data = " << middle->data << endl;
+
+    Node* lastFromEnd = getLastNode(head);
+    if (lastFromEnd)
+        cout << "\nLast node from end data = " << lastFromEnd->data << endl;
+    else
+        cout << "\nUnable to get last node from end." << endl;
+
+    const char* targetData = "5";
+    Node* nthNode = getNodeByData(head, targetData);
+    if (nthNode)
+        cout << "\nNode containing \"" << targetData << "\" found. Data = " << nthNode->data << endl;
+    else
+        cout << "\nNode containing \"" << targetData << "\" not found." << endl;
+
+    // Head
+    Node* headNode = getHead(head);
+    if (headNode)
+        cout << "\nHead data = " << headNode->data << endl;
+
+    // Tail
+    Node* tailNode = getTail(head);
+    if (tailNode)
+        cout << "\nTail data = " << tailNode->data << endl;
+
+    // --- Reverse the list ---
+    head = reverseList(head);
+    cout << "\nReversed List:" << endl;
+    printList(head);
+
+    // --- Cleanup ---
+    freeList(head);
+    cout << "\nList memory freed." << endl;
+
+    return 0;
+}
     return 0;
 }
