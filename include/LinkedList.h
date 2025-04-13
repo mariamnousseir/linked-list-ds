@@ -44,6 +44,10 @@ public:
     void removeDuplicates();
     void makeCircular();
     bool isCircular() const;
+    void deleteAtHead();
+    void deleteAtTail();
+    void deleteAtPosition(int position);
+    void deleteByValue(char* value);
 };
 
 #include "LinkedList.tpp"

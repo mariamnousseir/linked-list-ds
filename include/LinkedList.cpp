@@ -213,7 +213,7 @@ void LinkedList::insertAtPosition(int position,char* data) {
       }
       //if position is in between the list
      Node*current = head; //create a pointer to start from head
-     for (int i = 0; i < position - 1; i++) //traverse through the list till we reach the node before desired position n ode
+     for (int i = 0; i < position - 1; i++) //traverse through the list till we reach the node before desired position
        {
        current = current->next;
        }
@@ -236,4 +236,102 @@ void LinkedList::swapNodes(Node*node1,Node*node2) {
   node1->next=node2->next;
   node2->next=node1->next;
 }
+
+//deleting first node (head)
+void LinkedList::deleteAtHead(){
+  if (isEmpty()){ //checking if list is empty
+    cerr << "error: list is empty,nothing to delete" << endl;
+    }
+    Node* current = head; //create a pointer that points to the head
+    head = head->next; //update the head to be the second node (the next of the previous head)
+    delete current; //delete current (which was the previous head)
+    length--; //modify the length by decreasing
+  }
+
+  //deleting last node (tail)
+  void LinkedList::deleteAtTail(){
+    if (isEmpty()){ //check if list is empty
+      cerr << "error: list is empty,nothing to delete" << endl;
+    }
+    if (head->next == nullptr){ //check if the list had only one node
+      delete head; //delete the only node in the list (head)
+      head = nullptr; // modify the list to be empty
+      length--; //modify the length by decreasing
+    }
+    Node* current = head; //create a pointer (current) that points to the head
+    while (current->next != nullptr) //traverse through the list until current is standing at last node
+    {
+      current = current->next;
+    }
+    delete current; //to delete last node
+    current = nullptr; //last node deleted
+    length--;
+    }
+
+    //deleting at a specific position
+    void LinkedList::deleteAtPosition(int position){
+    if(isEmpty()){ //check if list is empty
+      cerr << "error: list is empty,nothing to delete" << endl;
+      return;
+    }
+    if(position < 0 || position > length){ //check if position is less or more than the current length of the list
+      cerr << "error: position out of bounds" << endl;
+      return;
+    }
+    if (position == 0){ //check if desired position is the head
+      deleteAtHead(); //reuse the delete at head function
+      return;
+      length--; //modify the length by decreasing
+    }
+    if (position == length){ //check if desired position is the tail
+      deleteAtTail(); //reuse the delete at tail function
+      return;
+      length--; //modify the length by decreasing
+    }
+    //in case the required position is the middle of the list
+    Node*current = head; //create a pointer (current) pointing to the head
+    //a loop to traverse through the list till we reach the node preceeding the desired position
+    for (int i = 0; i < position - 1; i++){
+      current = current->next;
+      }
+    Node* previous = current; //create a pointer that points to the node preceeding the required position
+    previous = current->next->next; //let the pointer before the node that requires deletion point to the node following the one required deletion (pointers modification)
+    delete current->next; //delete node at desired position
+
+    length--; //modify the length by decreasing
+    }
+    //deleting a node by desired value
+    void LinkedList::deleteByValue(char* value){
+      if(isEmpty()){ //check if list is empty
+        cerr << "error: list is empty,nothing to delete" << endl;
+        return;
+      }
+      if(head->data == value){  //check if desired value is at head
+        Node* current = head; //create a pointer to point at head
+        head = head->next; //let the second node be the head
+        delete current; //delete the previous head (desired value)
+        length--; //modify the length by decreasing
+        return;
+      }
+      Node* current = head; //create a pointer that points to the head
+      while (current->next != nullptr && current->next->data != value){ //traverse through the list till the desired value is found or till null is reached
+        current = current->next;
+        }
+        if (current->next == nullptr){ //if null is reached then value does not exist
+          cerr << "error: node does not exist, desired value is not found" << endl;
+          return;
+        }
+        if (current->next->data == value){ //if value is found
+        Node* current2 = current->next; //create new pointer that points to the desired value
+        current->next = current->next->next; //let the first pointer point to the next of the desired value
+        delete current2->next; //delete the desired node
+        length--; //modify the length by decreasing
+        }
+      }
+
+
+
+
+
+
 
