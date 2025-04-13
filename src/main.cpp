@@ -53,6 +53,41 @@ int main() {
     if (invalidData == nullptr)
         cout << "Correctly handled out of bounds request" << endl;
 
+    cout << "\nTest 10: Inserting tokens at the start of the list:" << endl;
+    list.insertAtFront("4");
+    list.insertAtFront("+");
+    list.insertAtFront("(");
+    list.insertAtFront("2");
+    list.insertAtFront("*");
+    list.insertAtFront("3");
+    list.insertAtFront(")");
+    cout << "List after insertions: ";
+    list.printList();
+    cout << "Length of list after insertions: " << list.getLength() << endl;
+
+    cout << "\nTest 11: Inserting node with value \"3\" after node containing value \"2\":" << endl;
+    // Assuming the node with "2" is at index 2 after Test 10 insertions:
+    LinkedList::Node* nodeAt2 = list.getNodeAt(2);
+    if (nodeAt2) {
+        list.insertAfter(nodeAt2, "3");
+    }
+    cout << "List after insertion: ";
+    list.printList();
+
+    cout << "\nTest 12: Inserting node at position 2:" << endl;
+    list.insertAtPosition(2, "20"); // insert "20" at position 2
+    cout << "List after insertion: ";
+    list.printList();
+
+    cout << "\nTest 13: Swapping nodes with values at positions 3 and 5:" << endl;
+    LinkedList::Node* nodeAt3 = list.getNodeAt(3);
+    LinkedList::Node* nodeAt5 = list.getNodeAt(5);
+    if(nodeAt3 && nodeAt5) {
+        list.swapNodes(nodeAt3, nodeAt5);
+    }
+    cout << "List after swapping nodes: ";
+    list.printList();
+
     cout << "\nAll Tests Completed" << endl;
     return 0;
 }

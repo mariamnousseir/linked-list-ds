@@ -144,3 +144,182 @@ void LinkedList::makeCircular() {
     }
     current->next = head;
 }
+
+// Function to check if list is circular
+bool LinkedList::isCircular() const {
+    if (isEmpty()) {
+        return false;
+    }
+    Node* current = head->next;
+    if (current == head) {
+        return true;
+    }
+    while (current != nullptr) {
+        if (current == head) {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+// Function to insert a new node at head
+void LinkedList::insertAtFront(const char* data) {
+    Node* newNode = new Node(data);
+    if (isEmpty()) {
+        head = newNode;
+    }
+    else {
+        newNode->next = head;
+        head = newNode;
+    }
+    length++;
+}
+
+// Function to insert node after a given node
+void LinkedList::insertAfter(Node* prevNode, const char* data) {
+    if (prevNode == nullptr) {
+        cerr << "error: previous Node is null" << endl;
+        return;
+    }
+    Node* newNode = new Node(data);
+    newNode->next = prevNode->next;
+    prevNode->next = newNode;
+    length++;
+}
+
+// Function to insert node at a specific position
+void LinkedList::insertAtPosition(int position, const char* data) {
+    if (position < 0 || position > length) {
+        cerr << "error: position out of bounds" << endl;
+        return;
+    }
+    if (position == 0) {
+        insertAtFront(data);
+        return;
+    }
+    if (position == length) {
+        insertAtEnd(data);
+        return;
+    }
+    Node* current = head;
+    for (int i = 0; i < position - 1; i++) {
+        current = current->next;
+    }
+    Node* newNode = new Node(data);
+    newNode->next = current->next;
+    current->next = newNode;
+    length++;
+}
+
+// Function to swap two nodes by swapping their data pointers.
+void LinkedList::swapNodes(Node* node1, Node* node2) {
+    if (node1 == nullptr || node2 == nullptr) return;
+    if (strcmp(node1->data, node2->data) == 0)
+        return;
+    char* temp = node1->data;
+    node1->data = node2->data;
+    node2->data = temp;
+}
+
+// Deleting the first node (head)
+void LinkedList::deleteAtHead(){
+    if (isEmpty()){
+        cerr << "error: list is empty, nothing to delete" << endl;
+        return;
+    }
+    Node* current = head;
+    head = head->next;
+    delete[] current->data;
+    delete current;
+    length--;
+}
+
+// Deleting the last node (tail)
+void LinkedList::deleteAtTail(){
+    if (isEmpty()){
+        cerr << "error: list is empty, nothing to delete" << endl;
+        return;
+    }
+    if (head->next == nullptr){
+        delete[] head->data;
+        delete head;
+        head = nullptr;
+        length--;
+        return;
+    }
+    Node* current = head;
+    while (current->next->next != nullptr) {
+        current = current->next;
+    }
+    delete[] current->next->data;
+    delete current->next;
+    current->next = nullptr;
+    length--;
+}
+
+// Deleting a node at a specific position
+void LinkedList::deleteAtPosition(int position){
+    if (isEmpty()){
+        cerr << "error: list is empty, nothing to delete" << endl;
+        return;
+    }
+    if (position < 0 || position >= length){
+        cerr << "error: position out of bounds" << endl;
+        return;
+    }
+    if (position == 0){
+        deleteAtHead();
+        return;
+    }
+    Node* current = head;
+    for (int i = 0; i < position - 1; i++){
+        current = current->next;
+    }
+    Node* temp = current->next;
+    current->next = temp->next;
+    delete[] temp->data;
+    delete temp;
+    length--;
+}
+
+// Deleting a node by its value
+void LinkedList::deleteByValue(const char* value){
+    if (isEmpty()){
+        cerr << "error: list is empty, nothing to delete" << endl;
+        return;
+    }
+    if (strcmp(head->data, value) == 0){
+        Node* current = head;
+        head = head->next;
+        delete[] current->data;
+        delete current;
+        length--;
+        return;
+    }
+    Node* current = head;
+    while (current->next != nullptr && strcmp(current->next->data, value) != 0){
+        current = current->next;
+    }
+    if (current->next == nullptr){
+        cerr << "error: node does not exist, desired value is not found" << endl;
+        return;
+    }
+    Node* temp = current->next;
+    current->next = temp->next;
+    delete[] temp->data;
+    delete temp;
+    length--;
+}
+
+// New helper function: returns the node at a given index (0-indexed) or nullptr if out of bounds.
+LinkedList::Node* LinkedList::getNodeAt(int index) const {
+    if(index < 0 || index >= length) {
+        return nullptr;
+    }
+    Node* current = head;
+    for (int i = 0; i < index; i++){
+        current = current->next;
+    }
+    return current;
+}
