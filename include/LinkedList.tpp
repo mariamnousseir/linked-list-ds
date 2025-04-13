@@ -46,21 +46,6 @@ int LinkedList::getLength() const {
     return length;
 }
 
-// Inserts a new node at the end of the list.
-void LinkedList::insertAtEnd(const char* data) {
-    Node* newNode = new Node(data);
-    if (isEmpty()) {
-        head = newNode;
-    }
-    else {
-        Node* current = head;
-        while (current->next != nullptr && current->next != head) {
-            current = current->next;
-        }
-        current->next = newNode;
-    }
-    length++;
-}
 
 // Returns the data at a given index.
 char* LinkedList::getDataAt(int index) const {
@@ -144,3 +129,111 @@ void LinkedList::makeCircular() {
     }
     current->next = head;
 }
+
+//function to check if list is circular
+bool LinkedList::isCircular() const {
+  if (isEmpty())
+  {
+    return false;
+  }
+  Node *current = head->next;
+  if (current == head) {
+    return true;
+  }
+  while(current!=nullptr)
+    {
+    if (current ==head){
+      return true;
+    }
+    current = current->next;
+    }
+    return false;
+}
+
+//function to insert a new node at head
+void LinkedList::insertAtFront(const char* data) {
+ Node* newNode = new Node(data); //new node creation
+ if (isEmpty()) //check if list is empty
+ {
+  head = newNode; //only one node
+  }
+  else
+  {
+  newNode->next = head; //new node point to head
+  head = newNode; //update head to become the new node
+  }
+  length++; //increase list size
+ }
+
+ //function to insert a new node at the end.
+void LinkedList::insertAtEnd(const char* data) {
+    Node* newNode = new Node(data); //create new node
+    if (isEmpty()) { //check if list is empty
+        head = newNode; //only one node
+    }
+    else {
+        Node* current = head; //otherwise traverse starting from head till last node to lti
+        while (current->next != nullptr)
+        {
+            current = current->next; //traverse until we reach next = null
+        }
+        current->next = newNode; //insert new node at end
+    }
+    length++; //increase list size
+}
+
+//function to insert node after certain position
+void LinkedList::insertAfter(Node*prevNode,char *data) {
+  if(prevNode == nullptr) { //checks if there is a previous node or not
+    cerr << "error: previous Node is null" << endl;
+    return; //cannot insert after null
+    }
+    Node* newNode = new Node(data);  //create a new node
+    newNode->next = prevNode->next; //new node points to next of previous node
+    prevNode->next = newNode; //to link the previous node to the new node
+
+    length++; //increase list size
+}
+
+//function to insert node at specific position
+void LinkedList::insertAtPosition(int position,char* data) {
+  if(position < 0 || position > length) //position not found
+  {
+    cerr << "error: position out of bounds" << endl;
+  }
+  if (position == 0) //if position is the first node(head)
+    {
+    insertAtFront(data);
+    return;
+    }
+    if (position == length) //if position is the last node(tail)
+      {
+      insertAtEnd(data);
+      return;
+      }
+      //if position is in between the list
+     Node*current = head; //create a pointer to start from head
+     for (int i = 0; i < position - 1; i++) //traverse through the list till we reach the node before desired position n ode
+       {
+       current = current->next;
+       }
+       Node* newNode = new Node(data); //create new node
+       newNode->next = current->next; //next of new node points to position
+       current->next = newNode; //new node inserted at position
+
+       length++;
+}
+
+//function to swap two nodes
+void LinkedList::swapNodes(Node*node1,Node*node2) {
+  //if two values are the same, no need to swap
+  if (node1->data == node2->data)
+    return;
+  Node*current=head; //create a new pointer
+
+  //swap the next pointers of each node
+  current->next=node1->next;
+  node1->next=node2->next;
+  node2->next=node1->next;
+}
+
